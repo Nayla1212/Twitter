@@ -25,11 +25,20 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     List<Tweet> tweets;
 
     //Pass in the context and list of tweets
-
-
     public TweetsAdapter(Context context, List<Tweet> tweets) {
         this.context = context;
         this.tweets = tweets;
+    }
+
+    //Helper method for scrolling to refresh
+    public void clear(){
+        tweets.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Tweet> list){
+        tweets.addAll(list);
+        notifyDataSetChanged();
     }
 
     //For each row, inflate the layout
@@ -79,9 +88,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvTimeAgo.setText(tweet.createdAt);
 
         }
-
-
-
-
     }
+
+
 }
