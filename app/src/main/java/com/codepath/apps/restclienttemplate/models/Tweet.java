@@ -6,6 +6,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 
+@Parcel
 public class Tweet {
 
     public static final String TAG = "Tweet";
@@ -20,6 +22,9 @@ public class Tweet {
     public String body;
     public String createdAt;
     public User user;
+
+    //empty constructor needed by the Parceler library
+    public Tweet(){};
 
     //timestamp
     private static final int SECOND_MILLIS = 1000;
