@@ -65,22 +65,7 @@ public class TimelineActivity extends AppCompatActivity {
         btnLogOut=findViewById(R.id.btnLogOut);
 
         populateHomeTimeline();
-
-
-        //Set on-click response for logout button
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // forget who's logged in
-                TwitterApplication.getRestClient(TimelineActivity.this).clearAccessToken();
-
-                // navigate backwards to Login screen
-                Intent i = new Intent(TimelineActivity.this, LoginActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
-                startActivity(i);
-            }
-        });
+        
 
         //Swiping
         // Lookup the swipe container view
@@ -100,33 +85,7 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
     }
-    /*
-    //For swiping
-    public void fetchTimelineAsync(int page) {
-        // Send the network request to fetch the updated data
-        // `client` here is an instance of Android Async HTTP
-        // getHomeTimeline is an example endpoint.
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                // Remember to CLEAR OUT old items before appending in the new ones
-                adapter.clear();
-                // ...the data has come back, add new items to your adapter...
-                adapter.addAll(tweets);
-                populateHomeTimeline();
-                // Now we call setRefreshing(false) to signal refresh has finished
-                swipeContainer.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.d("DEBUG", "Fetch timeline error: " + throwable.toString());
-            }
-        });
-    }
-    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -142,6 +101,17 @@ public class TimelineActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ComposeActivity.class);
             startActivityForResult(intent, REQUEST_CODE);
             return true;
+        }
+        if(item.getItemId() == R.id.btnLogOut){
+            // forget who's logged in
+            TwitterApplication.getRestClient(TimelineActivity.this).clearAccessToken();
+
+            // navigate backwards to Login screen
+            Intent i = new Intent(TimelineActivity.this, LoginActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
+            startActivity(i);
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -159,7 +129,6 @@ public class TimelineActivity extends AppCompatActivity {
             rvTweets.smoothScrollToPosition(0);
 
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 
