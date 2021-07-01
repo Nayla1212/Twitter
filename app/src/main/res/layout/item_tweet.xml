@@ -48,4 +48,19 @@
         android:layout_marginBottom="0dp"
         android:layout_toEndOf="@+id/tvScreenName"
         android:text="timestamp" />
+
+    <ImageView
+        android:id="@+id/ivUrl"
+        android:layout_alignLeft="@id/tvBody"
+        android:layout_alignRight="@id/tvBody"
+        android:layout_below = "@id/tvBody"
+        android:layout_marginTop = "8dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:scaleType="fitCenter"
+        tools:srcCompat="@tools:sample/avatars"
+        />
+
 </RelativeLayout>

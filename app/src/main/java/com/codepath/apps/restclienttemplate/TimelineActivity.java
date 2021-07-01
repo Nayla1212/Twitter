@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -22,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +41,7 @@ public class TimelineActivity extends AppCompatActivity {
     List<Tweet> tweets;
     TweetsAdapter adapter;
     Button btnLogOut;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +92,7 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onRefresh called");
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false) once the network request has completed successfully.
-                fetchTimelineAsync(0);
+                populateHomeTimeline();
             }
         });
         // Configure the refreshing colors
@@ -98,7 +102,7 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_red_light);
 
     }
-
+    /*
     //For swiping
     public void fetchTimelineAsync(int page) {
         // Send the network request to fetch the updated data
@@ -122,6 +126,7 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
     }
+    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -165,8 +170,10 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onSuccess!");
                 JSONArray jsonArray = json.jsonArray;
                 try {
-                    tweets.addAll(Tweet.fromJsonArray(jsonArray));
-                    adapter.notifyDataSetChanged();
+                    adapter.clear();
+                    adapter.addAll(Tweet.fromJsonArray(jsonArray));
+                    // Now we call setRefreshing(false) to signal refresh has finished
+                    swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     Log.e(TAG, "Json exception", e);
                 }
@@ -174,7 +181,7 @@ public class TimelineActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "onFailure!", throwable);
+                Log.e(TAG, "onFailure!" + response, throwable);
             }
         });
     }

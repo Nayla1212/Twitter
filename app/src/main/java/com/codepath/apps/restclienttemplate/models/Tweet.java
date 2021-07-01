@@ -2,6 +2,8 @@ package com.codepath.apps.restclienttemplate.models;
 
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +24,9 @@ public class Tweet {
     public String body;
     public String createdAt;
     public User user;
+    public ArrayList<String> embeddedImages;
+    public String firstEmbeddedImage;
+    public boolean hasMedia;
 
     //empty constructor needed by the Parceler library
     public Tweet(){};
@@ -39,6 +44,24 @@ public class Tweet {
         String temp = jsonObject.getString("created_at");
         tweet.createdAt = tweet.getRelativeTimeAgo(temp);
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+
+        //Embedded image
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(Tweet.this, android.R.layout.simple_list_item_1, jsonObject.getJSONArray("media"));
+        JSONObject entities = jsonObject.getJSONObject("entities");
+        if(entities.has("media")){
+            JSONArray media = entities.getJSONArray("media");
+            tweet.hasMedia = true;
+            tweet.embeddedImages = new ArrayList<>();
+            for(int i=0; i<media.length(); i++){
+                tweet.embeddedImages.add(media.getJSONObject(i).getString("media_url_https"));
+            }
+            tweet.firstEmbeddedImage = tweet.embeddedImages.get(0);
+
+        }
+        else{
+            tweet.hasMedia = false;
+            tweet.embeddedImages = new ArrayList<>();
+        }
         return tweet;
     }
 

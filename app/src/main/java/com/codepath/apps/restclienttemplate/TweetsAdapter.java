@@ -5,6 +5,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -65,7 +66,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         return tweets.size();
     }
 
-
     //Define a viewholder
     public class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -73,6 +73,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvBody;
         TextView tvScreenName;
         TextView tvTimeAgo;
+        ImageView ivUrl;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
@@ -80,13 +81,19 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvTimeAgo = itemView.findViewById(R.id.tvTimeAgo);
+            ivUrl = itemView.findViewById(R.id.ivUrl);
         }
         public void bind(Tweet tweet){
             tvBody.setText(tweet.body);
             tvScreenName.setText(tweet.user.screenName);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
             tvTimeAgo.setText(tweet.createdAt);
-
+            if(tweet.hasMedia){
+                Glide.with(context).load(tweet.firstEmbeddedImage).into(ivUrl);
+            }
+            else{
+                ivUrl.setVisibility(View.GONE);
+            }
         }
     }
 
