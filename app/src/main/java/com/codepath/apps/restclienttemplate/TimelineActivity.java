@@ -47,6 +47,9 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_launcher_twitter_round);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         client = TwitterApplication.getRestClient(this);
 
@@ -65,7 +68,7 @@ public class TimelineActivity extends AppCompatActivity {
         btnLogOut=findViewById(R.id.btnLogOut);
 
         populateHomeTimeline();
-        
+
 
         //Swiping
         // Lookup the swipe container view

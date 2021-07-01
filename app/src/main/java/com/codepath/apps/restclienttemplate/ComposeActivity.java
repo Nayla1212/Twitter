@@ -33,6 +33,9 @@ public class ComposeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_launcher_twitter_round);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         client = TwitterApplication.getRestClient(this);
 
