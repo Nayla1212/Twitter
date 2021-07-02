@@ -90,6 +90,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvTimeAgo.setText(tweet.createdAt);
             if(tweet.hasMedia){
                 Glide.with(context).load(tweet.firstEmbeddedImage).into(ivUrl);
+                ivUrl.setVisibility(View.VISIBLE);
             }
             else{
                 ivUrl.setVisibility(View.GONE);
